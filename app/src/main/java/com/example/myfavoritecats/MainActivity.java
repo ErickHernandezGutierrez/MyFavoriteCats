@@ -3,8 +3,13 @@ package com.example.myfavoritecats;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 /*import com.mashape.unirest.http.HttpResponse;
@@ -103,23 +108,19 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String jsonString){
-            TextView calis = (TextView) findViewById(R.id.calis);
-            if (jsonString == null) System.out.println("NULOOOOOOOOO");
-            //calis.setText(jsonString);
-
             try {
-                JSONArray jsonArray = new JSONArray(jsonString);
-                /*for(int i=0; i<jsonArray.length(); i++){
-                    JSONObject jsonObject = jsonArray.getJSONObject(i);
-                    calis.setText();
-                }*/
-
                 // there is always only one JSON object
-                JSONObject json = jsonArray.getJSONObject(0 );
+                JSONArray  jsonArray  = new JSONArray(jsonString);
+                JSONObject jsonObject = jsonArray.getJSONObject(0 );
+                String imageURL = (String) jsonObject.get("url");
 
-                String imageURL = (String) json.get("url");
-
-                calis.setText(imageURL);
+                try {
+                    ImageView imageView = (ImageView) findViewById(R.id.image_view);
+                    DownloadImageAsyncTask imageLoader = new DownloadImageAsyncTask(imageView);
+                    imageLoader.execute(imageURL);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
             catch (Exception e){
                 e.printStackTrace();
@@ -127,47 +128,30 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private String getJSON(String url) {
-        HttpURLConnection c = null;
-        try {
-            URL u = new URL(url);
-            c = (HttpURLConnection) u.openConnection();
-            if (c == null) System.out.println("PEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEDO");
-
-            c.setRequestMethod("GET");
-            c.setRequestProperty("Content-Type", "application/json");
-            c.setRequestProperty("Accept", "application/json");
-            //c.setRequestProperty("x-api-key", "8d3afb4a-8a77-4fab-b6cb-ab3d16f5edc1");
-            //c.setRequestProperty("Format", "JSON");
-            c.connect();
-            //int status = c.getResponseCode();
-
-            /*switch (status) {
-                case 200:
-                case 201:
-                    BufferedReader br = new BufferedReader(new InputStreamReader(c.getInputStream(), "utf-8"));
-                    StringBuilder sb = new StringBuilder();
-                    String line;
-                    while ((line = br.readLine()) != null) {
-                        sb.append(line);
-                    }
-                    br.close();
-                    return sb.toString();
-            }*/
-
-            return "MAAAAAAAAAAAAAAANTA";
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("HOOOOOOOOOOOOOOOOOLA");
-        } finally {
-            c.disconnect();
+    private class DownloadImageAsyncTask extends AsyncTask<String, Void, Bitmap> {
+        ImageView bmImage;
+        public DownloadImageAsyncTask(ImageView bmImage) {
+            this.bmImage = bmImage;
         }
-        return null;
-    }
 
+        protected Bitmap doInBackground(String... params) {
+            String imageURL = params[0];
+            Bitmap bmp = null;
+            try {
+                InputStream inputStream = new URL(imageURL).openStream();
+                bmp = BitmapFactory.decodeStream(inputStream);
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage() );
+                e.printStackTrace();
+            }
+            return bmp;
+        }
+        protected void onPostExecute(Bitmap result) {
+            bmImage.setImageBitmap(result);
+        }
+    }
     void showCat(String requestURL) {
-        TextView calis = (TextView) findViewById(R.id.calis);
+        //TextView calis = (TextView) findViewById(R.id.calis);
 
         try{
             URL url = new URL( requestURL );
@@ -187,8 +171,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void showCat(){
-        TextView calis = (TextView) findViewById(R.id.calis);
-        calis.setText("calis");
+        //TextView calis = (TextView) findViewById(R.id.calis);
+        //calis.setText("calis");
 
         try{
             URL url = new URL( "https://api.thecatapi.com/v1/images/search?x-api-key=8d3afb4a-8a77-4fab-b6cb-ab3d16f5edc1&format=json" );
@@ -219,7 +203,7 @@ public class MainActivity extends AppCompatActivity {
             br.close();
             urlConnection.disconnect();
 
-            calis.setText(jsonString);
+            //calis.setText(jsonString);
         }
         catch(Exception e) {
             System.out.println("HOOOOOOOOOOOOOOOOOLA");
