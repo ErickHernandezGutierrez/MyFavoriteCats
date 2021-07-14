@@ -2,25 +2,14 @@ package com.example.myfavoritecats;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
-
-/*import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.JsonNode;
-import com.mashape.unirest.http.Unirest;
-import com.mashape.unirest.http.exceptions.UnirestException;
-import org.json.JSONArray;
-import org.json.JSONObject;*/
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -33,6 +22,7 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.HttpURLConnection;
+import com.example.myfavoritecats.DownloadImageAsyncTask;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -51,26 +41,36 @@ public class MainActivity extends AppCompatActivity {
         //calis.setText( getJSON("https://api.thecatapi.com/v1/images/search?x-api-key=8d3afb4a-8a77-4fab-b6cb-ab3d16f5edc1&format=json") );
 
 
-        Button button = (Button) findViewById(R.id.next_image);
-        button.setOnClickListener(new View.OnClickListener() {
+        Button nextButton = (Button) findViewById(R.id.next_image_button);
+        nextButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 showRandomCat();
+            }
+        });
+
+        Button saveButton = (Button) findViewById(R.id.save_buttom);
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                UserDatabaseHelper db = new UserDatabaseHelper(MainActivity.this );
+                db.addCat("c9JL47_hX", "https://cdn2.thecatapi.com/images/c9JL47_hX.png", 2232, 1920);
             }
         });
     }
 
     private void showRandomCat(){
-        HttpPostAsyncTask task = new HttpPostAsyncTask(this );
+        //HttpPostAsyncTask task = new HttpPostAsyncTask(this );
+        HttpPostAsyncTask task = new HttpPostAsyncTask();
         task.execute( "https://api.thecatapi.com/v1/images/search" );
     }
 
     public class HttpPostAsyncTask extends AsyncTask<String, Void, String>{
-        private Context context;
+        //private Context context;
 
         // This is a constructor that allows you to pass in the JSON body
-        public HttpPostAsyncTask(Context context) {
+        /*public HttpPostAsyncTask(Context context) {
             this.context = context;
-        }
+        }*/
+        public HttpPostAsyncTask() {}
 
         // This is a function that we are overriding from AsyncTask. It takes Strings as parameters because that is what we defined for the parameters of our async task
         @Override
@@ -110,11 +110,9 @@ public class MainActivity extends AppCompatActivity {
                 bufferedReader.close();
 
                 return stringBuilder.toString();
-            }
-            catch (Exception e){
+            } catch (Exception e){
                 e.printStackTrace();
-            }
-            finally {
+            } finally {
                 urlConnection.disconnect();
             }
 
@@ -140,89 +138,6 @@ public class MainActivity extends AppCompatActivity {
             catch (Exception e){
                 e.printStackTrace();
             }
-        }
-    }
-
-    private class DownloadImageAsyncTask extends AsyncTask<String, Void, Bitmap> {
-        ImageView bmImage;
-        public DownloadImageAsyncTask(ImageView bmImage) {
-            this.bmImage = bmImage;
-        }
-
-        protected Bitmap doInBackground(String... params) {
-            String imageURL = params[0];
-            Bitmap bmp = null;
-            try {
-                InputStream inputStream = new URL(imageURL).openStream();
-                bmp = BitmapFactory.decodeStream(inputStream);
-            } catch (Exception e) {
-                Log.e("Error", e.getMessage() );
-                e.printStackTrace();
-            }
-            return bmp;
-        }
-        protected void onPostExecute(Bitmap result) {
-            bmImage.setImageBitmap(result);
-        }
-    }
-    void showCat(String requestURL) {
-        //TextView calis = (TextView) findViewById(R.id.calis);
-
-        try{
-            URL url = new URL( requestURL );
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setRequestMethod("GET");
-            InputStream inputStream = new BufferedInputStream( urlConnection.getInputStream() );
-            System.out.println("MAAAAAAAAAAAAAAANTA222");
-        }
-        catch (MalformedURLException e){
-            System.out.println("HOOOOOOOOOOOOOOOOOLA");
-            e.printStackTrace();
-        }
-        catch(IOException e){
-            System.out.println("MUUUUUUUUUUUUUUUUUUNDO");
-            e.printStackTrace();
-        }
-    }
-
-    void showCat(){
-        //TextView calis = (TextView) findViewById(R.id.calis);
-        //calis.setText("calis");
-
-        try{
-            URL url = new URL( "https://api.thecatapi.com/v1/images/search?x-api-key=8d3afb4a-8a77-4fab-b6cb-ab3d16f5edc1&format=json" );
-
-            // create the urlConnection
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-
-            // set connection headers
-            //urlConnection.setRequestProperty("x-api-key", "8d3afb4a-8a77-4fab-b6cb-ab3d16f5edc1");
-            //urlConnection.setRequestProperty("Format", "JSON");
-
-            /*urlConnection.setReadTimeout(15000);
-            urlConnection.setConnectTimeout(15000);
-            urlConnection.setDoInput(true);
-            urlConnection.setDoOutput(true);
-            urlConnection.setRequestMethod("POST");*/
-
-            if (urlConnection.getResponseCode() != HttpURLConnection.HTTP_OK) {
-                throw new RuntimeException("Request Failed. HTTP Error Code: " + urlConnection.getResponseCode());
-            }
-
-            BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-            StringBuffer jsonString = new StringBuffer();
-            String line;
-            while ((line = br.readLine()) != null) {
-                jsonString.append(line);
-            }
-            br.close();
-            urlConnection.disconnect();
-
-            //calis.setText(jsonString);
-        }
-        catch(Exception e) {
-            System.out.println("HOOOOOOOOOOOOOOOOOLA");
-            e.printStackTrace();
         }
     }
 }
