@@ -2,6 +2,7 @@ package com.example.myfavoritecats;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -53,6 +54,14 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 UserDatabaseHelper db = new UserDatabaseHelper(MainActivity.this );
                 db.addCat("c9JL47_hX", "https://cdn2.thecatapi.com/images/c9JL47_hX.png", 2232, 1920);
+            }
+        });
+
+        Button myImagesButton = (Button) findViewById(R.id.my_images_button);
+        myImagesButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent( MainActivity.this, MyImagesActivity.class );
+                startActivity(intent);
             }
         });
     }
