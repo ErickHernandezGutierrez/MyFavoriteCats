@@ -6,9 +6,12 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -38,8 +41,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        HttpPostAsyncTask task = new HttpPostAsyncTask(this );
-        task.execute( "https://api.thecatapi.com/v1/images/search" );
+        showRandomCat();
 
         //showCat();
         //showCat( "https://api.thecatapi.com/v1/images/search?format=json" );
@@ -47,6 +49,19 @@ public class MainActivity extends AppCompatActivity {
         //TextView calis = (TextView) findViewById(R.id.calis);
         //calis.setText( getJSON("https://api.thecatapi.com/v1/images/search?format=json") );
         //calis.setText( getJSON("https://api.thecatapi.com/v1/images/search?x-api-key=8d3afb4a-8a77-4fab-b6cb-ab3d16f5edc1&format=json") );
+
+
+        Button button = (Button) findViewById(R.id.next_image);
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                showRandomCat();
+            }
+        });
+    }
+
+    private void showRandomCat(){
+        HttpPostAsyncTask task = new HttpPostAsyncTask(this );
+        task.execute( "https://api.thecatapi.com/v1/images/search" );
     }
 
     public class HttpPostAsyncTask extends AsyncTask<String, Void, String>{
