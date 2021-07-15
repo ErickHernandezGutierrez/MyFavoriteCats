@@ -2,11 +2,13 @@ package com.example.myfavoritecats;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -28,7 +30,18 @@ public class MainActivity extends AppCompatActivity {
         Button saveButton = findViewById(R.id.save_buttom);
         saveButton.setOnClickListener(v -> {
             UserDatabaseHelper dataBase = new UserDatabaseHelper(MainActivity.this );
-            dataBase.addCat("c9JL47_hX", "https://cdn2.thecatapi.com/images/c9JL47_hX.png", 2232, 1920);
+
+            TextView idView     = findViewById(R.id.id_view);
+            TextView urlView    = findViewById(R.id.url_view);
+            TextView widthView  = findViewById(R.id.width_view);
+            TextView heightView = findViewById(R.id.height_view);
+
+            String imageID  = (String) idView.getText();
+            String imageURL = (String) urlView.getText();
+            int imageWidth  = Integer.valueOf( (String)widthView.getText()  );
+            int imageHeight = Integer.valueOf( (String)heightView.getText() );
+
+            dataBase.addCat( imageID, imageURL, imageWidth, imageHeight );
         });
 
         Button myImagesButton = findViewById(R.id.my_images_button);
