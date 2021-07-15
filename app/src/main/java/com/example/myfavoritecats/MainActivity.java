@@ -2,7 +2,6 @@ package com.example.myfavoritecats;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -14,8 +13,6 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-
-    public CatItem currentCat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,16 +55,16 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void showRandomCat(){
+    private void showRandomCat() {
         HttpPostAsyncTask task = new HttpPostAsyncTask( MainActivity.this );
         task.execute( "https://api.thecatapi.com/v1/images/search" );
     }
 
-    private ArrayList<CatItem> getSavedCatsFromCursor(Cursor cursor){
+    private ArrayList<CatItem> getSavedCatsFromCursor(Cursor cursor) {
         ArrayList<CatItem> savedCats = new ArrayList<>();
 
-        if(cursor.getCount() != 0){
-            while(cursor.moveToNext()){
+        if (cursor.getCount() != 0) {
+            while (cursor.moveToNext()) {
                 String catapi_id = cursor.getString(1);
                 String url       = cursor.getString(2);
                 int width        = cursor.getInt(3);
@@ -77,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
 
                 savedCats.add(newCat);
             }
-        } else{
+        } else {
             Toast.makeText(getBaseContext(), "No saved cats to show.", Toast.LENGTH_SHORT ).show();
             return null;
         }

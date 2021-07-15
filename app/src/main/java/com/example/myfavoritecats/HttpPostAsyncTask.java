@@ -38,14 +38,14 @@ public class HttpPostAsyncTask extends AsyncTask<String, Void, String> {
             InputStream result = urlConnection.getInputStream();
             return convertResultToString(urlConnection, result);
         }
-        catch(IOException e){
+        catch (IOException e) {
             e.printStackTrace();
         }
 
         return null;
     }
 
-    private String convertResultToString(HttpURLConnection urlConnection, InputStream result){
+    private String convertResultToString(HttpURLConnection urlConnection, InputStream result) {
         try {
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(result));
             StringBuilder stringBuilder = new StringBuilder();
@@ -56,7 +56,7 @@ public class HttpPostAsyncTask extends AsyncTask<String, Void, String> {
             bufferedReader.close();
 
             return stringBuilder.toString();
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         } finally {
             urlConnection.disconnect();
@@ -96,7 +96,7 @@ public class HttpPostAsyncTask extends AsyncTask<String, Void, String> {
                 e.printStackTrace();
             }
         }
-        catch (Exception e){
+        catch (Exception e) {
             e.printStackTrace();
         }
     }

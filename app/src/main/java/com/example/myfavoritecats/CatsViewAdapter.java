@@ -17,6 +17,15 @@ import com.example.myfavoritecats.DownloadImageAsyncTask;
 public class CatsViewAdapter extends RecyclerView.Adapter<CatsViewAdapter.CatsViewHolder> {
     private Context mContext;
     private ArrayList<CatItem> mCatsList;
+    private OnItemClickListener mListener;
+
+    public interface OnItemClickListener {
+        void OnItemClick(int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        mListener = listener;
+    }
 
     public CatsViewAdapter(Context context, ArrayList<CatItem> cats){
         mContext = context;
@@ -29,6 +38,18 @@ public class CatsViewAdapter extends RecyclerView.Adapter<CatsViewAdapter.CatsVi
         public CatsViewHolder(View catView){
             super(catView);
             mImageView = catView.findViewById(R.id.favorite_image_view);
+
+            catView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mListener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            mListener.OnItemClick(position);
+                        }
+                    }
+                }
+            });
         }
     }
 
@@ -46,6 +67,8 @@ public class CatsViewAdapter extends RecyclerView.Adapter<CatsViewAdapter.CatsVi
         String imageURL = currentItem.getURL();
         DownloadImageAsyncTask imageDownloader = new DownloadImageAsyncTask(holder.mImageView);
         imageDownloader.execute(imageURL);
+
+
     }
 
     @Override
