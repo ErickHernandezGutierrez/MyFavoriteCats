@@ -1,6 +1,8 @@
 package com.example.myfavoritecats;
 
-public class CatItem {
+import java.io.Serializable;
+
+public class CatItem implements Serializable {
     private String mAPIID;
     private String mURL;
     private int mWidth;
@@ -16,5 +18,5 @@ public class CatItem {
     public String getAPIID(){ return mAPIID; }
     public String getURL(){ return mURL; }
     public int getWidth(){ return mWidth; }
-    public int getmHeight(){ return mHeight; }
+    public int getHeight(){ return mHeight; }
 }
