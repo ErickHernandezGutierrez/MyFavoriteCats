@@ -4,9 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.ImageView;
-
-import com.example.myfavoritecats.DownloadImageAsyncTask;
-import com.example.myfavoritecats.R;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -22,10 +20,6 @@ import java.net.URL;
 public class HttpPostAsyncTask extends AsyncTask<String, Void, String> {
     private Context context;
 
-    // This is a constructor that allows you to pass in the JSON body
-        /*public HttpPostAsyncTask(Context context) {
-            this.context = context;
-        }*/
     public HttpPostAsyncTask(Context context) {
         this.context = context;
     }
@@ -43,9 +37,6 @@ public class HttpPostAsyncTask extends AsyncTask<String, Void, String> {
 
             InputStream result = urlConnection.getInputStream();
             return convertResultToString(urlConnection, result);
-        }
-        catch (MalformedURLException e){
-            e.printStackTrace();
         }
         catch(IOException e){
             e.printStackTrace();
@@ -80,13 +71,26 @@ public class HttpPostAsyncTask extends AsyncTask<String, Void, String> {
             // there is always only one JSON object
             JSONArray jsonArray  = new JSONArray(jsonString);
             JSONObject jsonObject = jsonArray.getJSONObject(0);
+
+            String imageID  = (String) jsonObject.get("id");
             String imageURL = (String) jsonObject.get("url");
+            int imageWidth  = (int)    jsonObject.get("width");
+            int imageHeight = (int)    jsonObject.get("height");
 
             try {
-                ImageView imageView = (ImageView) ((Activity)context).findViewById(R.id.image_view);
+                ImageView imageView = ((Activity)context).findViewById(R.id.image_view);
                 DownloadImageAsyncTask imageDownloader = new DownloadImageAsyncTask(imageView);
                 imageDownloader.execute(imageURL);
 
+                TextView idView     = ((Activity)context).findViewById(R.id.id_view);
+                TextView urlView    = ((Activity)context).findViewById(R.id.url_view);
+                TextView widthView  = ((Activity)context).findViewById(R.id.width_view);
+                TextView heightView = ((Activity)context).findViewById(R.id.height_view);
+
+                idView.setText( imageID );
+                urlView.setText( imageURL );
+                widthView.setText( String.valueOf(imageWidth) );
+                heightView.setText( String.valueOf(imageHeight) );
 
             } catch (Exception e) {
                 e.printStackTrace();

@@ -11,7 +11,7 @@ import androidx.annotation.Nullable;
 
 class UserDatabaseHelper extends SQLiteOpenHelper {
 
-    private Context context;
+    private final Context context;
     private static final String DATABASE_NAME    = "MyFavoriteCats.db";
     private static final int    DATABASE_VERSION = 1;
 
@@ -22,7 +22,7 @@ class UserDatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_WIDTH  = "width";
     private static final String COLUMN_HEIGHT = "height";
 
-    public UserDatabaseHelper(@Nullable Context context){
+    public UserDatabaseHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.context = context;
     }
@@ -45,7 +45,7 @@ class UserDatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    void addCat(String catapi_id, String url, int width, int height){
+    void addCat(String catapi_id, String url, int width, int height) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues  cv = new ContentValues();
 
@@ -55,19 +55,19 @@ class UserDatabaseHelper extends SQLiteOpenHelper {
         cv.put(COLUMN_HEIGHT, height);
         long result = db.insert(TABLE_NAME, null, cv);
 
-        if( result == -1 ){
+        if (result == -1) {
             Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show();
-        } else{
+        } else {
             Toast.makeText(context, "Added Successfully!", Toast.LENGTH_SHORT).show();
         }
     }
 
-    Cursor readAllData(){
+    Cursor readAllData() {
         String query = "SELECT * FROM " + TABLE_NAME;
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = null;
-        if(db != null){
+        if (db != null) {
             cursor = db.rawQuery(query, null);
         }
         return cursor;
