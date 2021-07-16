@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
 
 import java.util.ArrayList;
 
@@ -30,6 +31,15 @@ public class MyImagesActivity extends AppCompatActivity implements CatsViewAdapt
         catsViewAdapter = new CatsViewAdapter(this, mSavedCats);
         recyclerView.setAdapter(catsViewAdapter);
         catsViewAdapter.setOnItemClickListener( MyImagesActivity.this );
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getSupportActionBar().setHomeButtonEnabled(false);      // Disable the button
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false); // Remove the left caret
+        getSupportActionBar().setDisplayShowHomeEnabled(false); // Remove the icon
+
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
