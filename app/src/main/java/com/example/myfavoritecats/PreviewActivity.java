@@ -2,11 +2,9 @@ package com.example.myfavoritecats;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.DownloadManager;
+import android.app.ActionBar;
 import android.os.Bundle;
 import android.widget.ImageView;
-
-import java.util.ArrayList;
 
 public class PreviewActivity extends AppCompatActivity {
 
@@ -14,6 +12,14 @@ public class PreviewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_preview);
+
+        // remove back arrow
+        ActionBar actionBar = getActionBar();
+        if (actionBar != null) {
+            actionBar.setHomeButtonEnabled(false);      // Disable the button
+            actionBar.setDisplayHomeAsUpEnabled(false); // Remove the left caret
+            actionBar.setDisplayShowHomeEnabled(false); // Remove the icon
+        }
 
         CatItem clickedCat = (CatItem) getIntent().getSerializableExtra("CLICKED_CAT");
 

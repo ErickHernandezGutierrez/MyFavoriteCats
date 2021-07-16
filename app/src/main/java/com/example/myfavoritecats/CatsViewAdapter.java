@@ -1,6 +1,5 @@
 package com.example.myfavoritecats;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,11 +11,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-import com.example.myfavoritecats.DownloadImageAsyncTask;
-
 public class CatsViewAdapter extends RecyclerView.Adapter<CatsViewAdapter.CatsViewHolder> {
-    private Context mContext;
-    private ArrayList<CatItem> mCatsList;
+    private final Context mContext;
+    private final ArrayList<CatItem> mCatsList;
     private OnItemClickListener mListener;
 
     public interface OnItemClickListener {
@@ -39,14 +36,11 @@ public class CatsViewAdapter extends RecyclerView.Adapter<CatsViewAdapter.CatsVi
             super(catView);
             mImageView = catView.findViewById(R.id.favorite_image_view);
 
-            catView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (mListener != null) {
-                        int position = getAdapterPosition();
-                        if (position != RecyclerView.NO_POSITION) {
-                            mListener.OnItemClick(position);
-                        }
+            catView.setOnClickListener(v -> {
+                if (mListener != null) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        mListener.OnItemClick(position);
                     }
                 }
             });
@@ -55,7 +49,7 @@ public class CatsViewAdapter extends RecyclerView.Adapter<CatsViewAdapter.CatsVi
 
     @NonNull
     @Override
-    public CatsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public CatsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(mContext).inflate(R.layout.cat_item, parent, false);
         return new CatsViewHolder(v);
     }

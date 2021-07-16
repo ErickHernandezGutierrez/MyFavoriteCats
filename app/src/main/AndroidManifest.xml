@@ -13,12 +13,12 @@
         android:theme="@style/Theme.MyFavoriteCats">
         <activity
             android:name=".PreviewActivity"
-            android:label="Preview Activity"
+            android:label="My Favorite Cats"
             android:parentActivityName=".MyImagesActivity">
         </activity>
         <activity
             android:name=".MyImagesActivity"
-            android:label="My Images Activity"
+            android:label="My Favorite Cats"
             android:parentActivityName=".MainActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>

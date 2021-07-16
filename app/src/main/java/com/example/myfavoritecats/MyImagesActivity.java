@@ -2,19 +2,15 @@ package com.example.myfavoritecats;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.android.volley.RequestQueue;
-
 import java.util.ArrayList;
 
 public class MyImagesActivity extends AppCompatActivity implements CatsViewAdapter.OnItemClickListener {
-    private RecyclerView mRecyclerView;
-    private CatsViewAdapter mCatsViewAdapter;
+
     private ArrayList<CatItem> mSavedCats;
 
     @Override
@@ -25,12 +21,15 @@ public class MyImagesActivity extends AppCompatActivity implements CatsViewAdapt
         // get savedCats from the previous activity
         mSavedCats = (ArrayList<CatItem>) getIntent().getSerializableExtra("SAVED_CATS");
 
-        mRecyclerView = findViewById(R.id.recycler_view);
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
-        mCatsViewAdapter = new CatsViewAdapter(this, mSavedCats);
-        mRecyclerView.setAdapter(mCatsViewAdapter);
-        mCatsViewAdapter.setOnItemClickListener( MyImagesActivity.this );
+        RecyclerView recyclerView;
+        recyclerView = findViewById(R.id.recycler_view);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+
+        CatsViewAdapter catsViewAdapter;
+        catsViewAdapter = new CatsViewAdapter(this, mSavedCats);
+        recyclerView.setAdapter(catsViewAdapter);
+        catsViewAdapter.setOnItemClickListener( MyImagesActivity.this );
     }
 
     @Override

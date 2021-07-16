@@ -1,3 +1,15 @@
 <resources>
-    <string name="app_name">MyFavoriteCats</string>
+    <string name="app_name">My Favorite Cats</string>
+
+    <string name="preview_image_description">Show a preview of the clicked image</string>
+    <string name="cat_view">Show random cat from The Cat API</string>
+
+    <string name="id_text">ID:</string>
+    <string name="url_text">URL:</string>
+    <string name="width_text">Width:</string>
+    <string name="height_text">Height:</string>
+
+    <string name="next_image_button">NEXT IMAGE</string>
+    <string name="save_image_button">SAVE</string>
+    <string name="my_images_button">MY IMAGES</string>
 </resources>

@@ -24,7 +24,8 @@
                 android:id="@+id/image_view"
                 android:layout_width="match_parent"
                 android:layout_height="220dp"
-                android:src="@mipmap/ic_launcher"/>
+                android:src="@mipmap/ic_launcher"
+                android:contentDescription="@string/cat_view"/>
 
             <GridLayout
                 android:layout_width="match_parent"
@@ -36,62 +37,58 @@
                 <TextView
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
                     android:textColor="@color/black"
-                    android:text="ID:"/>
+                    android:text="@string/id_text"/>
 
                 <TextView
                     android:id="@+id/id_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:textSize="10sp"
-                    android:text="value"/>
+                    android:layout_marginStart="5dp"
+                    android:textSize="12sp" />
 
                 <TextView
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
                     android:textColor="@color/black"
-                    android:text="URL:"/>
+                    android:text="@string/url_text"/>
 
                 <TextView
                     android:id="@+id/url_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:textSize="10sp"
-                    android:text="https://cdn2.thecatapi.com/images/c9JL47_hX.png"/>
+                    android:layout_marginStart="5dp"
+                    android:textSize="12sp"/>
 
                 <TextView
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
                     android:textColor="@color/black"
-                    android:text="Width:"/>
+                    android:text="@string/width_text"/>
 
                 <TextView
                     android:id="@+id/width_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:textSize="10sp"
-                    android:text="value"/>
+                    android:layout_marginStart="5dp"
+                    android:textSize="12sp"/>
 
                 <TextView
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
                     android:textColor="@color/black"
-                    android:text="Height:"/>
+                    android:text="@string/height_text"/>
 
                 <TextView
                     android:id="@+id/height_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:textSize="10sp"
-                    android:text="value"/>
+                    android:layout_marginStart="5dp"
+                    android:textSize="12sp"/>
 
             </GridLayout>
 
@@ -105,7 +102,7 @@
         android:layout_height="50dp"
         android:layout_gravity="center"
         android:layout_marginTop="16dp"
-        android:text="Next Image"/>
+        android:text="@string/next_image_button"/>
 
     <Button
         android:id="@+id/save_buttom"
@@ -113,7 +110,7 @@
         android:layout_height="50dp"
         android:layout_gravity="center"
         android:layout_marginTop="16dp"
-        android:text="Save"/>
+        android:text="@string/save_image_button"/>
 
     <Button
         android:id="@+id/my_images_button"
@@ -121,26 +118,6 @@
         android:layout_height="50dp"
         android:layout_gravity="center"
         android:layout_marginTop="16dp"
-        android:text="My Images"/>
-    
-    <!--
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/cats_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/black"/>
-    -->
-
-    <!--
-    <TextView
-        android:id="@+id/calis"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-    -->
+        android:text="@string/my_images_button"/>
 
 </LinearLayout>

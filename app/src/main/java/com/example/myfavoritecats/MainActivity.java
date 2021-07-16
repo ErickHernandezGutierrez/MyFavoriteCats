@@ -5,12 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+
+import static java.lang.Integer.parseInt;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -35,8 +36,8 @@ public class MainActivity extends AppCompatActivity {
 
             String imageID  = (String) idView.getText();
             String imageURL = (String) urlView.getText();
-            int imageWidth  = Integer.valueOf( (String)widthView.getText()  );
-            int imageHeight = Integer.valueOf( (String)heightView.getText() );
+            int imageWidth  = parseInt( (String)widthView.getText()  );
+            int imageHeight = parseInt( (String)heightView.getText() );
 
             dataBase.addCat( imageID, imageURL, imageWidth, imageHeight );
         });
@@ -47,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
             Cursor cursor = dataBase.readAllData();
             ArrayList<CatItem> savedCats = getSavedCatsFromCursor(cursor);
 
-            if(savedCats != null){
+            if (savedCats != null) {
                 Intent intent = new Intent(MainActivity.this, MyImagesActivity.class);
                 intent.putExtra("SAVED_CATS", savedCats);
                 startActivity(intent);

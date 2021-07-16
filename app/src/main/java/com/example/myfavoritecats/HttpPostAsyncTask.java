@@ -3,6 +3,7 @@ package com.example.myfavoritecats;
 import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,11 +15,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 public class HttpPostAsyncTask extends AsyncTask<String, Void, String> {
-    private Context context;
+    private final Context context;
 
     public HttpPostAsyncTask(Context context) {
         this.context = context;
@@ -33,12 +33,12 @@ public class HttpPostAsyncTask extends AsyncTask<String, Void, String> {
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setRequestMethod("GET");
             urlConnection.setRequestProperty("format", "json");
-            //urlConnection.setRequestProperty("x-api-key", "8d3afb4a-8a77-4fab-b6cb-ab3d16f5edc1");
 
             InputStream result = urlConnection.getInputStream();
             return convertResultToString(urlConnection, result);
         }
         catch (IOException e) {
+            Log.e("Connection failed", e.getMessage());
             e.printStackTrace();
         }
 
@@ -57,6 +57,7 @@ public class HttpPostAsyncTask extends AsyncTask<String, Void, String> {
 
             return stringBuilder.toString();
         } catch (Exception e) {
+            Log.e("Error converting result", e.getMessage());
             e.printStackTrace();
         } finally {
             urlConnection.disconnect();
@@ -93,10 +94,12 @@ public class HttpPostAsyncTask extends AsyncTask<String, Void, String> {
                 heightView.setText( String.valueOf(imageHeight) );
 
             } catch (Exception e) {
+                Log.e("Error downloading image", e.getMessage());
                 e.printStackTrace();
             }
         }
         catch (Exception e) {
+            Log.e("Error parsing JSON", e.getMessage());
             e.printStackTrace();
         }
     }
